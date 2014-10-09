@@ -55,6 +55,10 @@ def GeeknoteCommitChangesToNote(note):
     for r in lines:
         content += r
 
+    print "Looking for changes:"
+    print "    New title: %s" % title
+    print "    New content: %s" % content
+
     # Update the note's title and content from what was read from the buffer.
     tracker.note.title   = title
     tracker.note.content = textToENML(content)
@@ -99,6 +103,7 @@ def GeeknoteOpenNote(note):
 
         # Write the note's title and content to a temporary file.
         f = tempfile.NamedTemporaryFile(delete=False)
+        print "Opening '%s' in '%s'" % (note.title, f.name)
         f.write(note.title + '\n\n')
         
         isNoteEmpty = not content.strip()
@@ -155,4 +160,9 @@ def GeeknotePrepareToSaveNote(filename):
     filename = os.path.abspath(filename)
     tracker  = openNotes[filename]
     tracker.modified = tracker.buffer.options['modified']
+
+    if tracker.modified:
+        print "Starting to save %s, buffer modified" % filename
+    else:
+        print "Starting to save %s, buffer unmodified" % filename
 

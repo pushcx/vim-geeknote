@@ -54,6 +54,10 @@ def GeeknoteCreateNote(title):
     # Cleanup the title of the note.
     title = title.strip('"\'')
 
+    print "Creating note:"
+    print "    Title:    %s" % title
+    print "    Notebook: %s" % notebook.name
+
     # Find a good place to open a new window for the note content.
     origWin = getActiveWindow()
     if isWindowUsable(origWin) is False:
@@ -150,6 +154,7 @@ def GeeknoteSaveNote(filename):
     changed = GeeknoteCommitChangesToNote(note)
     if changed:
         try:
+            print "Updating note '%s' on server" % note.title
             GeeknoteUpdateNote(note)
         except Exception as e:
             GeeknoteHandleNoteSaveFailure(note, e)
